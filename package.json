@@ -1,0 +1,17 @@
+{
+  "name": "yarn",
+  "version": "1.0.0",
+  "description": "A twitterbot for whenkas.github.io",
+  "main": "index.js",
+  "repository": "https://github.com/whenkas/whenkas_twitter_bot.git",
+  "author": "whenkas@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "puppeteer": "^22.10.0",
+    "twit": "^2.2.11",
+    "twitter-api-v2": "^1.17.0"
+  }
+}

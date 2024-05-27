@@ -1,0 +1,62 @@
+name: Screenshot and Tweet
+
+on:
+  schedule:
+    - cron: '15 16 * * *'   # Run daily at 16:15 UTC
+    - cron: '15 0 * * *'    # Run daily at 00:15 UTC
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write  # Grant write permissions to the GITHUB_TOKEN
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+      
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install Puppeteer dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxrandr2 libxdamage1 libxkbcommon0 libpango-1.0-0 libxshmfence1 libgbm1
+
+      - name: Run script
+        run: node index.js
+        env:
+          TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+          TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+
+      - name: Check for changes
+        id: git_status
+        run: |
+          git add screenshots/
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit"
+            echo "changes=false" >> $GITHUB_ENV
+          else
+            echo "Changes detected"
+            echo "changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit and push changes
+        if: env.changes == 'true'
+        continue-on-error: true
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Add new screenshot and text file'
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
