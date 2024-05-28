@@ -43,7 +43,7 @@ async function captureAndPostScreenshot() {
     console.log("Tweet text saved to file:", textPath);
 
     try {
-        const mediaId = await rwClient.v1.uploadMedia(screenshotPath, { type: 'png' });
+        const mediaId = await rwClient.v1.uploadMedia(screenshotPath, { mimeType: 'image/png' });
         const tweet = await rwClient.v2.tweet(tweetText, { media: { media_ids: [mediaId] } });
         console.log('Tweet posted:', tweet);
     } catch (error) {
