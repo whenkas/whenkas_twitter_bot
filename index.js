@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { TwitterApi } = require('twitter-api-v2');
 
+// Configure Twitter client for read-write operations
 const twitterClient = new TwitterApi({
     appKey: process.env.TWITTER_CONSUMER_KEY,
     appSecret: process.env.TWITTER_CONSUMER_SECRET,
