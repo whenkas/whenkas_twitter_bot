@@ -2,7 +2,9 @@ name: Monthly Screenshot and Tweet
 
 on:
   schedule:
-      - cron: '0 0 1,15 * *'  # Run on the 1st and 15th of every month
+    - cron: '10 16 * * *'   # Run daily at 16:10 UTC
+    - cron: '10 0 * * *'    # Run daily at 00:10 UTC
+
 jobs:
   build:
     runs-on: ubuntu-latest

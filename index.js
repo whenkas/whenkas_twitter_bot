@@ -43,13 +43,27 @@ async function captureAndPostScreenshot() {
     fs.writeFileSync(textPath, tweetText, 'utf8');
     console.log("Tweet text saved to file:", textPath);
 
-    try {
-        const mediaId = await rwClient.v1.uploadMedia(screenshotPath, { mimeType: 'image/png' });
-        const tweet = await rwClient.v2.tweet(tweetText, { media: { media_ids: [mediaId] } });
+    // Check if the text has changed
+    const lastTextPath = path.join("screenshots", 'last_tweet.txt');
+    let lastTweetText = '';
+    if (fs.existsSync(lastTextPath)) {
+        lastTweetText = fs.readFileSync(lastTextPath, 'utf8');
+    }
 
-        console.log('Tweet posted:', tweet);
-    } catch (error) {
-        console.error('Error posting tweet:', error);
+    if (tweetText !== lastTweetText) {
+        try {
+            const mediaId = await rwClient.v1.uploadMedia(screenshotPath, { mimeType: 'image/png' });
+            const tweet = await rwClient.v2.tweet(tweetText, { media: { media_ids: [mediaId] } });
+
+            console.log('Tweet posted:', tweet);
+
+            // Save the current tweet text as the last tweet text
+            fs.writeFileSync(lastTextPath, tweetText, 'utf8');
+        } catch (error) {
+            console.error('Error posting tweet:', error);
+        }
+    } else {
+        console.log('Tweet text has not changed. No tweet posted.');
     }
 }
 
