@@ -48,6 +48,10 @@ async function captureAndPostScreenshot() {
     let lastTweetText = '';
     if (fs.existsSync(lastTextPath)) {
         lastTweetText = fs.readFileSync(lastTextPath, 'utf8');
+        console.log("last tweet exist")
+    }
+    else {
+        console.log("no last tweet")
     }
 
     if (tweetText !== lastTweetText) {
