@@ -1,4 +1,4 @@
-name: Monthly Screenshot and Tweet
+name: Screenshot and Tweet
 
 on:
   schedule:
