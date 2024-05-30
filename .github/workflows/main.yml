@@ -2,8 +2,8 @@ name: Screenshot and Tweet
 
 on:
   schedule:
-    - cron: '15 16 * * *'   # Run daily at 16:10 UTC
-    - cron: '15 0 * * *'    # Run daily at 00:10 UTC
+    - cron: '15 16 * * *'   # Run daily at 16:15 UTC
+    - cron: '15 0 * * *'    # Run daily at 00:15 UTC
   push:
     branches:
       - main
