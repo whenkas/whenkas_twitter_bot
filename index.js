@@ -36,26 +36,27 @@ async function captureAndPostScreenshot() {
 
     const dateStr = new Date().toISOString().slice(0, 10);
     const screenshotPath = path.join("screenshots", `screenshot-${dateStr}.png`);
-    fs.writeFileSync(screenshotPath, screenshot, 'binary');
+    const textPath = path.join("screenshots", `screenshot-${dateStr}.txt`);
+    const lastTextPath = path.join("screenshots", 'last_tweet.txt');
 
     const tweetText = `${titleComponents.titleTemplate} ${titleComponents.titleDate}. ${titleComponents.titleDuration}. ${titleComponents.titleR2}`;
-    const textPath = path.join("screenshots", `screenshot-${dateStr}.txt`);
-    fs.writeFileSync(textPath, tweetText, 'utf8');
-    console.log("Tweet text saved to file:", textPath);
 
     // Check if the text has changed
-    const lastTextPath = path.join("screenshots", 'last_tweet.txt');
     let lastTweetText = '';
     if (fs.existsSync(lastTextPath)) {
         lastTweetText = fs.readFileSync(lastTextPath, 'utf8');
-        console.log("last tweet exist")
-    }
-    else {
-        console.log("no last tweet")
+        console.log("Last tweet exists");
+    } else {
+        console.log("No last tweet");
     }
 
     if (tweetText !== lastTweetText) {
         try {
+            // Save the screenshot and tweet text only if the text has changed
+            fs.writeFileSync(screenshotPath, screenshot, 'binary');
+            fs.writeFileSync(textPath, tweetText, 'utf8');
+            console.log("Screenshot and tweet text saved to file:", screenshotPath, textPath);
+
             const mediaId = await rwClient.v1.uploadMedia(screenshotPath, { mimeType: 'image/png' });
             const tweet = await rwClient.v2.tweet(tweetText, { media: { media_ids: [mediaId] } });
 
