@@ -22,6 +22,7 @@ async function captureAndPostScreenshot() {
     await page.evaluate(() => { document.body.style.zoom = '0.90'; });
     await new Promise(resolve => setTimeout(resolve, 5000));
 
+    // parsing title
     const titleComponents = await page.evaluate(() => {
         return {
             titleTemplate: document.querySelector('#title_template')?.innerText || 'Title template not found',
