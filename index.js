@@ -15,7 +15,9 @@ const twitterClient = new TwitterApi({
 const rwClient = twitterClient.readWrite;
 
 async function captureAndPostScreenshot() {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: (process.env.PUPPETEER_ARGS || '').split(' ').filter(arg => arg)
+    });
     const page = await browser.newPage();
     await page.goto('https://whenkas.github.io/');
     await page.setViewport({ width: 1080, height: 1080 });
