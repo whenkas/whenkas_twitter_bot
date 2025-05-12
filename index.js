@@ -30,7 +30,6 @@ async function captureAndPostScreenshot() {
             titleTemplate: document.querySelector('#title_template')?.innerText || 'Title template not found',
             titleDate: document.querySelector('#title_date')?.innerText || 'Date not found',
             titleDuration: document.querySelector('#title_duration')?.innerText || 'Duration not found',
-            titleR2: document.querySelector('#title_r2')?.innerText || 'R² not found'
         };
     });
 
@@ -42,7 +41,7 @@ async function captureAndPostScreenshot() {
     const textPath = path.join("screenshots", `screenshot-${dateStr}.txt`);
     const lastTextPath = path.join("screenshots", 'last_tweet.txt');
 
-    const tweetText = `${titleComponents.titleTemplate} ${titleComponents.titleDate}. ${titleComponents.titleDuration}. ${titleComponents.titleR2}`;
+    const tweetText = `${titleComponents.titleTemplate} ${titleComponents.titleDate}. ${titleComponents.titleDuration}}`;
 
     // Check if the text has changed
     let lastTweetText = '';
