@@ -41,7 +41,7 @@ async function captureAndPostScreenshot() {
     const textPath = path.join("screenshots", `screenshot-${dateStr}.txt`);
     const lastTextPath = path.join("screenshots", 'last_tweet.txt');
 
-    const tweetText = `${titleComponents.titleTemplate} ${titleComponents.titleDate}. ${titleComponents.titleDuration}}`;
+    const tweetText = `${titleComponents.titleTemplate} ${titleComponents.titleDate}. ${titleComponents.titleDuration}`;
 
     // Check if the text has changed
     let lastTweetText = '';
